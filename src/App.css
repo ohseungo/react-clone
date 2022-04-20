@@ -1,3 +1,9 @@
+#root {
+  height: 100%;
+}
+.game_app {
+  height: 100%;
+}
 :root {
   --green: #6aaa64;
   --darkendGreen: #538d4e;

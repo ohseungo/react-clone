@@ -1,0 +1,10 @@
+#main {
+  height: calc(100% - var(--header-height));
+  max-width: var(--game-max-width);
+  background-color: var(--color-tone-4);
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
