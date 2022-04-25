@@ -8,3 +8,4 @@ The clone project of WORDLE, the popular web-based word-guessing game. Built wit
 
 - React
 - Typescript
+- Redux

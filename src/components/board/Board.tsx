@@ -1,6 +1,18 @@
 import "./Board.css";
+import Row from "./Row";
+
 const Board = () => {
-  return <div id="board">Hello wordle</div>;
+  const dummyRow = [0, 0, 0, 0, 0, 0];
+  console.log(dummyRow);
+  return (
+    <div id="board-container">
+      <div id="board">
+        {dummyRow.map((value, index) => (
+          <Row key={index} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Board;
