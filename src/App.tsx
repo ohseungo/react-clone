@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "components/Header";
 import Container from "components/Container";
 import Board from "components/board/Board";
+import Keyboard from "components/keyboard/Keyboard";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Header />
       <Container>
         <Board />
-        <div>Keyboard</div>
+        <Keyboard />
       </Container>
     </div>
   );

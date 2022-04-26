@@ -32,3 +32,11 @@
   --keyboard-height: 200px;
   --game-max-width: 500px;
 }
+
+:root {
+  --color-present: var(--yellow);
+  --color-correct: var(--green);
+  --color-absent: var(--color-tone-2);
+  --key-text-color: var(--color-tone-1);
+  --key-bg: var(--color-tone-4);
+}
