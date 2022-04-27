@@ -3,7 +3,6 @@ import Row from "./Row";
 
 const Board = () => {
   const dummyRow = [0, 0, 0, 0, 0, 0];
-  console.log(dummyRow);
   return (
     <div id="board-container">
       <div id="board">
