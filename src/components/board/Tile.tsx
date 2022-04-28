@@ -1,7 +1,7 @@
 import "./Tile.css";
 
-const Tile = () => {
-  return <div className="tile"></div>;
+const Tile = ({ letter }: { letter?: string }) => {
+  return <div className="tile">{letter}</div>;
 };
 
 export default Tile;

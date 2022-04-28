@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import gameReducer from "store/game";
+import gameReducer from "store/gameProgress";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 

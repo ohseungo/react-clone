@@ -1,7 +1,7 @@
 import "./Row.css";
 import Tile from "./Tile";
 
-const Row = () => {
+const FixedRow = () => {
   const dummyCell = [0, 0, 0, 0, 0];
   return (
     <div className="row">
@@ -12,4 +12,4 @@ const Row = () => {
   );
 };
 
-export default Row;
+export default FixedRow;

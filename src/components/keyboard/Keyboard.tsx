@@ -3,19 +3,42 @@ import { useDispatch } from "react-redux";
 import Key from "./Key";
 import "./Keyboard.css";
 
-import { addGuess } from "store/game";
+import {
+  appendKeyToCurrentGuess,
+  deleteCurrentGuess,
+} from "store/gameProgress";
 
 const Keyboard = () => {
   const dispatch = useDispatch();
+  const onKey = (key: string) => {
+    dispatch(appendKeyToCurrentGuess({ key }));
+  };
+  const onDelete = () => {
+    dispatch(deleteCurrentGuess());
+  };
   const keyPressEventListener = (event: KeyboardEvent) => {
     switch (event.key) {
       case "ENTER":
         break;
       case "Backspace":
+        onDelete();
         break;
       default:
         if (event.key.toUpperCase() >= "A" && event.key.toUpperCase() <= "Z") {
-          dispatch(addGuess({ letter: event.key.toUpperCase() }));
+          onKey(event.key.toUpperCase());
+        }
+    }
+  };
+  const onClick = (key: string) => {
+    switch (key) {
+      case "ENTER":
+        break;
+      case "BACK":
+        onDelete();
+        break;
+      default:
+        if (key.toUpperCase() >= "A" && key.toUpperCase() <= "Z") {
+          onKey(key.toUpperCase());
         }
     }
   };
@@ -34,19 +57,19 @@ const Keyboard = () => {
     <div id="keyboard">
       <div className="keyboard-row">
         {firstRow.map((key) => (
-          <Key key={key} value={key} />
+          <Key key={key} value={key} onClick={onClick} />
         ))}
       </div>
       <div className="keyboard-row">
         <Key value="" />
         {secondRow.map((key) => (
-          <Key key={key} value={key} />
+          <Key key={key} value={key} onClick={onClick} />
         ))}
         <Key value="" />
       </div>
       <div className="keyboard-row">
         {thirdRow.map((key) => (
-          <Key key={key} value={key} />
+          <Key key={key} value={key} onClick={onClick} />
         ))}
       </div>
     </div>
