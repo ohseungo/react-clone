@@ -5,7 +5,7 @@ const Key = ({
   onClick,
 }: {
   value: string;
-  onClick?: (key: string) => void;
+  onClick?: (letter: string) => void;
 }) => {
   const handleClick = () => {
     if (onClick) onClick(value);

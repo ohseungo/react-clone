@@ -4,6 +4,7 @@ import Header from "components/Header";
 import Container from "components/Container";
 import Board from "components/board/Board";
 import Keyboard from "components/keyboard/Keyboard";
+import MessageToast from "components/common/MessageToast";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Container>
         <Board />
         <Keyboard />
+        <MessageToast />
       </Container>
     </div>
   );

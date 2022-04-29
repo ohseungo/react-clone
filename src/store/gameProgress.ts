@@ -5,11 +5,10 @@ export interface GameProgressState {
   guesses: string[];
   currentGuess: string;
   answer: string;
-  error?: string;
 }
 
 export interface GameProgressAction {
-  key: string;
+  appendingLetter: string;
 }
 
 const initialState: GameProgressState = {
@@ -27,7 +26,7 @@ export const gameProgressSlice = createSlice({
       action: PayloadAction<GameProgressAction>
     ) => {
       if (state.currentGuess.length < WORD_LENGTH) {
-        state.currentGuess += action.payload.key;
+        state.currentGuess += action.payload.appendingLetter;
       }
     },
     deleteCurrentGuess: (state: GameProgressState) => {

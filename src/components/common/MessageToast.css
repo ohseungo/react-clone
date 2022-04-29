@@ -1,0 +1,21 @@
+#toaster {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  pointer-events: none;
+}
+
+#toast-message {
+  background-color: var(--color-tone-1);
+  color: var(--color-tone-7);
+
+  position: relative;
+  padding: 16px;
+  margin: 16px;
+  border: none;
+
+  border-radius: 4px;
+  font-weight: 700;
+}

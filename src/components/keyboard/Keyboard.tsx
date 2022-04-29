@@ -4,21 +4,32 @@ import Key from "./Key";
 import "./Keyboard.css";
 
 import {
+  KEYBOARD_FIRST_ROW_KEYS,
+  KEYBOARD_SECOND_ROW_KEYS,
+  KEYBOARD_THIRD_ROW_KEYS,
+} from "constants/game";
+
+import {
   appendKeyToCurrentGuess,
   deleteCurrentGuess,
 } from "store/gameProgress";
+import { addToastMessage } from "store/system";
 
 const Keyboard = () => {
   const dispatch = useDispatch();
   const onKey = (key: string) => {
-    dispatch(appendKeyToCurrentGuess({ key }));
+    dispatch(appendKeyToCurrentGuess({ appendingLetter: key }));
   };
   const onDelete = () => {
     dispatch(deleteCurrentGuess());
   };
+  const onEnter = () => {
+    dispatch(addToastMessage({ message: "Test" }));
+  };
   const keyPressEventListener = (event: KeyboardEvent) => {
     switch (event.key) {
-      case "ENTER":
+      case "Enter":
+        onEnter();
         break;
       case "Backspace":
         onDelete();
@@ -29,22 +40,19 @@ const Keyboard = () => {
         }
     }
   };
-  const onClick = (key: string) => {
-    switch (key) {
+  const onClick = (letter: string) => {
+    switch (letter) {
       case "ENTER":
         break;
       case "BACK":
         onDelete();
         break;
       default:
-        if (key.toUpperCase() >= "A" && key.toUpperCase() <= "Z") {
-          onKey(key.toUpperCase());
+        if (letter.toUpperCase() >= "A" && letter.toUpperCase() <= "Z") {
+          onKey(letter.toUpperCase());
         }
     }
   };
-  const firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
-  const secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
-  const thirdRow = ["ENTER", "z", "x", "c", "v", "b", "n", "m", "BACK"];
 
   useEffect(() => {
     window.addEventListener("keyup", keyPressEventListener);
@@ -56,19 +64,19 @@ const Keyboard = () => {
   return (
     <div id="keyboard">
       <div className="keyboard-row">
-        {firstRow.map((key) => (
+        {KEYBOARD_FIRST_ROW_KEYS.map((key) => (
           <Key key={key} value={key} onClick={onClick} />
         ))}
       </div>
       <div className="keyboard-row">
         <Key value="" />
-        {secondRow.map((key) => (
+        {KEYBOARD_SECOND_ROW_KEYS.map((key) => (
           <Key key={key} value={key} onClick={onClick} />
         ))}
         <Key value="" />
       </div>
       <div className="keyboard-row">
-        {thirdRow.map((key) => (
+        {KEYBOARD_THIRD_ROW_KEYS.map((key) => (
           <Key key={key} value={key} onClick={onClick} />
         ))}
       </div>

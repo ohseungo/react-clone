@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
-import { GameProgressState } from "store/gameProgress";
+import { RootState } from "store";
 import { MAX_TRYOUT } from "constants/game";
 import "./Board.css";
 import FixedRow from "./FixedRow";
 import CurrentRow from "./CurrentRow";
 
 const Board = () => {
-  const guesses = useSelector((state: GameProgressState) => state.guesses);
+  const guesses = useSelector((state: RootState) => state.game.guesses);
   const currentGuess = useSelector(
-    (state: GameProgressState) => state.currentGuess
+    (state: RootState) => state.game.currentGuess
   );
   const emptyRows =
     guesses.length < MAX_TRYOUT - 1

@@ -4,13 +4,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import gameReducer from "store/gameProgress";
-import { configureStore } from "@reduxjs/toolkit";
+import { store } from "store";
 import { Provider } from "react-redux";
 
-const store = configureStore({
-  reducer: gameReducer,
-});
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
