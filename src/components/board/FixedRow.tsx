@@ -1,12 +1,12 @@
 import "./Row.css";
 import Tile from "./Tile";
 
-const FixedRow = () => {
-  const dummyCell = [0, 0, 0, 0, 0];
+const FixedRow = ({ word }: { word?: string }) => {
+  const splitedWord = word ? word.split("") : Array.from(Array(5));
   return (
     <div className="row">
-      {dummyCell.map((value, index) => (
-        <Tile key={index} />
+      {splitedWord.map((letter, index) => (
+        <Tile key={index} letter={letter} />
       ))}
     </div>
   );

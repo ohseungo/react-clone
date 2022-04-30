@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Key from "./Key";
 import "./Keyboard.css";
 
@@ -7,16 +7,24 @@ import {
   KEYBOARD_FIRST_ROW_KEYS,
   KEYBOARD_SECOND_ROW_KEYS,
   KEYBOARD_THIRD_ROW_KEYS,
+  WORD_LENGTH,
 } from "constants/game";
 
 import {
   appendKeyToCurrentGuess,
   deleteCurrentGuess,
 } from "store/gameProgress";
-import { addToastMessage } from "store/system";
+
+import { addToastMessage, setGuessAnimation } from "store/system";
+import { RootState } from "store";
+import { NOT_ENOUGH_LETTERS_MESSAGE } from "constants/system";
 
 const Keyboard = () => {
   const dispatch = useDispatch();
+  const currentGuess = useSelector(
+    (state: RootState) => state.game.currentGuess
+  );
+
   const onKey = (key: string) => {
     dispatch(appendKeyToCurrentGuess({ appendingLetter: key }));
   };
@@ -24,7 +32,10 @@ const Keyboard = () => {
     dispatch(deleteCurrentGuess());
   };
   const onEnter = () => {
-    dispatch(addToastMessage({ message: "Test" }));
+    if (currentGuess.length < WORD_LENGTH) {
+      dispatch(addToastMessage({ message: NOT_ENOUGH_LETTERS_MESSAGE }));
+      dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
+    }
   };
   const keyPressEventListener = (event: KeyboardEvent) => {
     switch (event.key) {
@@ -35,7 +46,11 @@ const Keyboard = () => {
         onDelete();
         break;
       default:
-        if (event.key.toUpperCase() >= "A" && event.key.toUpperCase() <= "Z") {
+        if (
+          event.key.length === 1 &&
+          event.key.toUpperCase() >= "A" &&
+          event.key.toUpperCase() <= "Z"
+        ) {
           onKey(event.key.toUpperCase());
         }
     }
@@ -84,4 +99,4 @@ const Keyboard = () => {
   );
 };
 
-export default Keyboard;
+export default React.memo(Keyboard);

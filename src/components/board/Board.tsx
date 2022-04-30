@@ -10,6 +10,7 @@ const Board = () => {
   const currentGuess = useSelector(
     (state: RootState) => state.game.currentGuess
   );
+
   const emptyRows =
     guesses.length < MAX_TRYOUT - 1
       ? Array.from({ length: MAX_TRYOUT - 1 - guesses.length })
@@ -17,11 +18,11 @@ const Board = () => {
   return (
     <div id="board-container">
       <div id="board">
-        {guesses.map((value, index) => (
-          <FixedRow key={index} />
+        {guesses.map((word, index) => (
+          <FixedRow key={index} word={word} />
         ))}
         <CurrentRow guess={currentGuess} />
-        {emptyRows.map((value, index) => (
+        {emptyRows.map((word, index) => (
           <FixedRow key={index} />
         ))}
       </div>

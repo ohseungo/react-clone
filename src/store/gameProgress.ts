@@ -12,7 +12,7 @@ export interface GameProgressAction {
 }
 
 const initialState: GameProgressState = {
-  guesses: [],
+  guesses: ["TAKER"],
   currentGuess: "",
   answer: "fight",
 };
