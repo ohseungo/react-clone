@@ -7,6 +7,8 @@
   font-size: 2rem;
   line-height: 2rem;
   font-weight: bold;
+
+  color: var(--tile-text-color);
 }
 
 .tile[data-state="empty"] {
@@ -18,11 +20,39 @@
   background-color: var(--color-tone-7);
 }
 
+.tile[data-state="correct"] {
+  background-color: var(--color-correct);
+}
+
+.tile[data-state="present"] {
+  background-color: var(--color-present);
+}
+
+.tile[data-state="absent"] {
+  background-color: var(--color-absent);
+}
 .tile[data-animation="pop-in"] {
   animation-name: PopIn;
   animation-duration: 100ms;
 }
 
+.tile[data-animation="flip-in"] {
+  animation-name: FlipIn;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+}
+
+.tile[data-animation="flip-out"] {
+  animation-name: FlipOut;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+}
+
+.tile[data-animation="flip"] {
+  animation-name: Flip;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in;
+}
 @keyframes PopIn {
   from {
     transform: scale(0.8);
@@ -32,5 +62,35 @@
   40% {
     transform: scale(1.1);
     opacity: 1;
+  }
+}
+
+@keyframes FlipIn {
+  0% {
+    transform: rotateX(0);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes FlipOut {
+  0% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes Flip {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0);
   }
 }

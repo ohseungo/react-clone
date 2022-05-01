@@ -11,6 +11,7 @@ import {
 } from "constants/game";
 
 import {
+  appendCurrentGuessToGuesses,
   appendKeyToCurrentGuess,
   deleteCurrentGuess,
 } from "store/gameProgress";
@@ -35,8 +36,11 @@ const Keyboard = () => {
     if (currentGuess.length < WORD_LENGTH) {
       dispatch(addToastMessage({ message: NOT_ENOUGH_LETTERS_MESSAGE }));
       dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
+    } else {
+      dispatch(appendCurrentGuessToGuesses());
     }
   };
+
   const keyPressEventListener = (event: KeyboardEvent) => {
     switch (event.key) {
       case "Enter":
@@ -58,6 +62,7 @@ const Keyboard = () => {
   const onClick = (letter: string) => {
     switch (letter) {
       case "ENTER":
+        onEnter();
         break;
       case "BACK":
         onDelete();

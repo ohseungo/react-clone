@@ -7,21 +7,22 @@ import CurrentRow from "./CurrentRow";
 
 const Board = () => {
   const guesses = useSelector((state: RootState) => state.game.guesses);
+  const guessStats = useSelector((state: RootState) => state.game.guessStats);
   const currentGuess = useSelector(
     (state: RootState) => state.game.currentGuess
   );
-
   const emptyRows =
     guesses.length < MAX_TRYOUT - 1
       ? Array.from({ length: MAX_TRYOUT - 1 - guesses.length })
       : [];
+
   return (
     <div id="board-container">
       <div id="board">
         {guesses.map((word, index) => (
-          <FixedRow key={index} word={word} />
+          <FixedRow key={index} word={word} guessStat={guessStats[index]} />
         ))}
-        <CurrentRow guess={currentGuess} />
+        {guesses.length < MAX_TRYOUT && <CurrentRow guess={currentGuess} />}
         {emptyRows.map((word, index) => (
           <FixedRow key={index} />
         ))}
