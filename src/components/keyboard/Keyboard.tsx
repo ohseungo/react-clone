@@ -18,7 +18,12 @@ import {
 
 import { addToastMessage, setGuessAnimation } from "store/system";
 import { RootState } from "store";
-import { NOT_ENOUGH_LETTERS_MESSAGE } from "constants/system";
+import {
+  NOT_ENOUGH_LETTERS_MESSAGE,
+  NOT_IN_WORDLIST_MESSAGE,
+} from "constants/system";
+import { updateGameSetupByCurrentGuess } from "lib/gameSetup";
+import { WORDS } from "constants/wordList";
 
 const Keyboard = () => {
   const dispatch = useDispatch();
@@ -36,8 +41,12 @@ const Keyboard = () => {
     if (currentGuess.length < WORD_LENGTH) {
       dispatch(addToastMessage({ message: NOT_ENOUGH_LETTERS_MESSAGE }));
       dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
+    } else if (!WORDS.includes(currentGuess.toLowerCase())) {
+      dispatch(addToastMessage({ message: NOT_IN_WORDLIST_MESSAGE }));
+      dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
     } else {
       dispatch(appendCurrentGuessToGuesses());
+      updateGameSetupByCurrentGuess(currentGuess);
     }
   };
 

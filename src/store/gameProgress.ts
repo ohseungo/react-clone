@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { WORD_LENGTH } from "constants/game";
-import { getGuessStat, LetterStat } from "lib/guess";
+import { answer, guesses } from "lib/gameSetup";
+import { getGuessStat, getGuessStats, LetterStat } from "lib/guess";
 export interface GameProgressState {
   guesses: string[];
   guessStats: LetterStat[][];
@@ -13,10 +14,10 @@ export interface GameProgressAction {
 }
 
 const initialState: GameProgressState = {
-  guesses: [],
-  guessStats: [],
+  guesses,
+  guessStats: getGuessStats(guesses, answer),
   currentGuess: "",
-  answer: "fight",
+  answer,
 };
 
 export const gameProgressSlice = createSlice({

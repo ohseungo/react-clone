@@ -10,8 +10,8 @@ export interface GuessResult {
 export type LetterStat = "correct" | "present" | "absent";
 
 export const getGuessStat = (guess: string, answer: string): LetterStat[] => {
-  const splitedGuess = guess.split("");
-  const splitedAnswer = answer.split("");
+  const splitedGuess = guess.toUpperCase().split("");
+  const splitedAnswer = answer.toUpperCase().split("");
 
   const answerCheck: boolean[] = Array.from({ length: WORD_LENGTH }).map(
     () => false
@@ -24,7 +24,6 @@ export const getGuessStat = (guess: string, answer: string): LetterStat[] => {
     }
   });
 
-  console.log(guessStat);
   splitedGuess.forEach((letter, index) => {
     if (guessStat[index]) {
       return;
@@ -45,4 +44,13 @@ export const getGuessStat = (guess: string, answer: string): LetterStat[] => {
     }
   });
   return guessStat;
+};
+
+export const getGuessStats = (
+  guesses: string[],
+  answer: string
+): LetterStat[][] => {
+  return guesses.map((guess, index) => {
+    return getGuessStat(guess, answer);
+  });
 };
