@@ -1,12 +1,5 @@
 import { WORD_LENGTH } from "constants/game";
 
-export type LetterHint = "correct" | "present" | "abscent";
-
-export interface GuessResult {
-  isCorrect: boolean;
-  letterHints: LetterHint[];
-}
-
 export type LetterStat = "correct" | "present" | "absent";
 
 export const getGuessStat = (guess: string, answer: string): LetterStat[] => {
@@ -53,4 +46,26 @@ export const getGuessStats = (
   return guesses.map((guess, index) => {
     return getGuessStat(guess, answer);
   });
+};
+
+export const getKeyStats = (
+  guesses: string[],
+  answer: string
+): { [key: string]: LetterStat } => {
+  const keyStats: { [key: string]: LetterStat } = {};
+  const splitedAnswer = answer.split("");
+
+  guesses.forEach((guess) => {
+    guess.split("").forEach((letter, index) => {
+      if (!splitedAnswer.includes(letter)) {
+        keyStats[letter.toLowerCase()] = "absent";
+      } else if (letter === splitedAnswer[index]) {
+        keyStats[letter.toLowerCase()] = "correct";
+      } else {
+        keyStats[letter.toLowerCase()] = "present";
+      }
+    });
+  });
+
+  return keyStats;
 };

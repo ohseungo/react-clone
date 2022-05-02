@@ -18,6 +18,20 @@
   user-select: none;
 }
 
+#keyboard button[data-state="correct"] {
+  background-color: var(--color-correct);
+  color: var(--color-tone-7);
+}
+
+#keyboard button[data-state="present"] {
+  background-color: var(--color-present);
+  color: var(--color-tone-7);
+}
+
+#keyboard button[data-state="absent"] {
+  background-color: var(--color-absent);
+  color: var(--color-tone-7);
+}
 #keyboard .keyboard-spacer-half {
   flex: 0.5;
 }

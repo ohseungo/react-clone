@@ -14,7 +14,7 @@ const getAnswerByRandom = () => {
 
   const randomIndex = Math.floor(Math.random() * (max - min)) + min;
 
-  return WORDS[randomIndex];
+  return WORDS[randomIndex].toUpperCase();
 };
 
 const saveGameSetupofDay = (gameSetup: GameSetupType) => {
@@ -37,10 +37,15 @@ const loadGameSetupOfDay = (): GameSetupType => {
   return gameSetup;
 };
 
-export const { answer, gameDate, guesses } = loadGameSetupOfDay();
-
-export const updateGameSetupByCurrentGuess = (currentGuess: string) => {
-  const newGuesses = [...guesses, currentGuess];
+export const updateGameSetupByCurrentGuess = (
+  currentGuess: string,
+  guesses: string[]
+) => {
+  const newGuesses = [...guesses];
+  newGuesses.push(currentGuess);
+  console.log(newGuesses);
   const newGameSetup = { guesses: newGuesses, gameDate, answer };
   localStorage.setItem(GAME_SETUP_KEY, JSON.stringify(newGameSetup));
 };
+
+export const { answer, gameDate, guesses } = loadGameSetupOfDay();

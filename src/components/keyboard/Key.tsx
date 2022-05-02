@@ -1,14 +1,15 @@
+import { LetterStat } from "lib/guess";
+import { MouseEventHandler } from "react";
 import "./Key.css";
-
-const Key = ({
-  value,
-  onClick,
-}: {
+interface Props {
   value: string;
+  status?: LetterStat;
   onClick?: (letter: string) => void;
-}) => {
-  const handleClick = () => {
+}
+const Key = ({ value, status, onClick }: Props) => {
+  const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     if (onClick) onClick(value);
+    event.currentTarget.blur();
   };
   switch (value) {
     case "":
@@ -21,7 +22,11 @@ const Key = ({
         </button>
       );
     default:
-      return <button onClick={handleClick}>{value}</button>;
+      return (
+        <button onClick={handleClick} data-state={status}>
+          {value}
+        </button>
+      );
   }
 };
 

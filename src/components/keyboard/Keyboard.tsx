@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Key from "./Key";
 import "./Keyboard.css";
@@ -7,6 +7,7 @@ import {
   KEYBOARD_FIRST_ROW_KEYS,
   KEYBOARD_SECOND_ROW_KEYS,
   KEYBOARD_THIRD_ROW_KEYS,
+  MAX_TRYOUT,
   WORD_LENGTH,
 } from "constants/game";
 
@@ -21,15 +22,23 @@ import { RootState } from "store";
 import {
   NOT_ENOUGH_LETTERS_MESSAGE,
   NOT_IN_WORDLIST_MESSAGE,
+  WINNING_MESSAGE,
 } from "constants/system";
-import { updateGameSetupByCurrentGuess } from "lib/gameSetup";
+import { answer, updateGameSetupByCurrentGuess } from "lib/gameSetup";
 import { WORDS } from "constants/wordList";
+import { getKeyStats } from "lib/guess";
 
 const Keyboard = () => {
+  const [isKeyboardLocked, setKeyboardLocked] = useState<boolean>(false);
   const dispatch = useDispatch();
   const currentGuess = useSelector(
     (state: RootState) => state.game.currentGuess
   );
+  const guesses = useSelector((state: RootState) => state.game.guesses);
+
+  const keyStats = getKeyStats(guesses, answer);
+  const isGameWon = guesses.includes(answer);
+  const isGameLost = !isGameWon && guesses.length >= MAX_TRYOUT;
 
   const onKey = (key: string) => {
     dispatch(appendKeyToCurrentGuess({ appendingLetter: key }));
@@ -37,7 +46,9 @@ const Keyboard = () => {
   const onDelete = () => {
     dispatch(deleteCurrentGuess());
   };
+
   const onEnter = () => {
+    console.log(currentGuess);
     if (currentGuess.length < WORD_LENGTH) {
       dispatch(addToastMessage({ message: NOT_ENOUGH_LETTERS_MESSAGE }));
       dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
@@ -46,11 +57,12 @@ const Keyboard = () => {
       dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
     } else {
       dispatch(appendCurrentGuessToGuesses());
-      updateGameSetupByCurrentGuess(currentGuess);
+      updateGameSetupByCurrentGuess(currentGuess, guesses);
     }
   };
 
   const keyPressEventListener = (event: KeyboardEvent) => {
+    if (isKeyboardLocked) return;
     switch (event.key) {
       case "Enter":
         onEnter();
@@ -69,6 +81,7 @@ const Keyboard = () => {
     }
   };
   const onClick = (letter: string) => {
+    if (isKeyboardLocked) return;
     switch (letter) {
       case "ENTER":
         onEnter();
@@ -83,30 +96,44 @@ const Keyboard = () => {
     }
   };
 
+  const savedHandler = useRef<any>();
+  savedHandler.current = keyPressEventListener;
   useEffect(() => {
-    window.addEventListener("keyup", keyPressEventListener);
+    const refKeyPressEventListner = (e: any) => savedHandler.current(e);
+    // const refKeyPressEventListner = savedHandler.current;
+    window.addEventListener("keyup", refKeyPressEventListner);
 
     return () => {
-      window.removeEventListener("keyup", keyPressEventListener);
+      window.removeEventListener("keyup", refKeyPressEventListner);
     };
-  });
+  }, []);
+
+  useEffect(() => {
+    if (isGameWon) {
+      dispatch(addToastMessage({ message: WINNING_MESSAGE }));
+      setKeyboardLocked(true);
+    } else if (isGameLost) {
+      dispatch(addToastMessage({ message: answer }));
+      setKeyboardLocked(true);
+    }
+  }, [dispatch, isGameLost, isGameWon]);
   return (
     <div id="keyboard">
       <div className="keyboard-row">
         {KEYBOARD_FIRST_ROW_KEYS.map((key) => (
-          <Key key={key} value={key} onClick={onClick} />
+          <Key key={key} value={key} onClick={onClick} status={keyStats[key]} />
         ))}
       </div>
       <div className="keyboard-row">
         <Key value="" />
         {KEYBOARD_SECOND_ROW_KEYS.map((key) => (
-          <Key key={key} value={key} onClick={onClick} />
+          <Key key={key} value={key} onClick={onClick} status={keyStats[key]} />
         ))}
         <Key value="" />
       </div>
       <div className="keyboard-row">
         {KEYBOARD_THIRD_ROW_KEYS.map((key) => (
-          <Key key={key} value={key} onClick={onClick} />
+          <Key key={key} value={key} onClick={onClick} status={keyStats[key]} />
         ))}
       </div>
     </div>
