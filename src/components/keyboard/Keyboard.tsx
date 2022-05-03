@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Key from "./Key";
 import "./Keyboard.css";
@@ -29,7 +29,7 @@ import { WORDS } from "constants/wordList";
 import { getKeyStats } from "lib/guess";
 
 const Keyboard = () => {
-  const [isKeyboardLocked, setKeyboardLocked] = useState<boolean>(false);
+  // const [isKeyboardLocked, setKeyboardLocked] = useState<boolean>(false);
   const dispatch = useDispatch();
   const currentGuess = useSelector(
     (state: RootState) => state.game.currentGuess
@@ -40,6 +40,24 @@ const Keyboard = () => {
   const isGameWon = guesses.includes(answer);
   const isGameLost = !isGameWon && guesses.length >= MAX_TRYOUT;
 
+  const isKeyboardLocked = !isGameWon && !isGameLost ? false : true;
+
+  if (isGameWon) {
+    dispatch(addToastMessage({ message: WINNING_MESSAGE }));
+  } else if (isGameLost) {
+    dispatch(addToastMessage({ message: answer }));
+  }
+
+  // useEffect(() => {
+  //   if (isGameWon) {
+  //     dispatch(addToastMessage({ message: WINNING_MESSAGE }));
+  //     setKeyboardLocked(true);
+  //   } else if (isGameLost) {
+  //     dispatch(addToastMessage({ message: answer }));
+  //     setKeyboardLocked(true);
+  //   }
+  // }, [dispatch, isGameLost, isGameWon]);
+
   const onKey = (key: string) => {
     dispatch(appendKeyToCurrentGuess({ appendingLetter: key }));
   };
@@ -48,7 +66,6 @@ const Keyboard = () => {
   };
 
   const onEnter = () => {
-    console.log(currentGuess);
     if (currentGuess.length < WORD_LENGTH) {
       dispatch(addToastMessage({ message: NOT_ENOUGH_LETTERS_MESSAGE }));
       dispatch(setGuessAnimation({ guessAnimation: "Shake" }));
@@ -98,25 +115,18 @@ const Keyboard = () => {
 
   const savedHandler = useRef<any>();
   savedHandler.current = keyPressEventListener;
+
   useEffect(() => {
-    const refKeyPressEventListner = (e: any) => savedHandler.current(e);
+    const refKeyPressEventListener = (e: any) => savedHandler.current(e);
     // const refKeyPressEventListner = savedHandler.current;
-    window.addEventListener("keyup", refKeyPressEventListner);
+    // const refKeyPressEventListener = (e: any) => keyPressEventListener(e);
+    window.addEventListener("keyup", refKeyPressEventListener);
 
     return () => {
-      window.removeEventListener("keyup", refKeyPressEventListner);
+      window.removeEventListener("keyup", refKeyPressEventListener);
     };
   }, []);
 
-  useEffect(() => {
-    if (isGameWon) {
-      dispatch(addToastMessage({ message: WINNING_MESSAGE }));
-      setKeyboardLocked(true);
-    } else if (isGameLost) {
-      dispatch(addToastMessage({ message: answer }));
-      setKeyboardLocked(true);
-    }
-  }, [dispatch, isGameLost, isGameWon]);
   return (
     <div id="keyboard">
       <div className="keyboard-row">
