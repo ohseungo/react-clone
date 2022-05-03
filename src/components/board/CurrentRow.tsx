@@ -14,10 +14,9 @@ const CurrentRow = ({ guess }: { guess: string }) => {
   const guessAnimation = useSelector(
     (state: RootState) => state.system.guessAnimation
   );
-  const [animation, setAnimation] = useState<string>("");
-
+  const [animation, setAnimation] = useState<string | undefined>(undefined);
   useEffect(() => {
-    if (guessAnimation) setAnimation(guessAnimation);
+    setAnimation(guessAnimation);
   }, [guessAnimation]);
 
   const handleAnimationEnd = (event: React.AnimationEvent) => {

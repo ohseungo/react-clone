@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./Tile.css";
 import React from "react";
 import { LetterStat } from "lib/guess";
@@ -10,19 +10,21 @@ interface Props {
 type TileState = "empty" | "tbd" | "correct" | "present" | "absent";
 
 const Tile = ({ letter, letterStat = undefined }: Props) => {
-  const [animation, setAnimation] = useState("");
-  const [state, setState] = useState<TileState>("empty");
   const isCompleted = !!letterStat && letter;
   const isEmptyToTbd = !letterStat && letter;
 
-  useEffect(() => {
-    if (isEmptyToTbd) {
-      setState("tbd");
-      setAnimation("pop-in");
-    } else if (isCompleted) {
-      setAnimation("flip");
-    }
-  }, [isEmptyToTbd, isCompleted]);
+  const initialAnimation = isEmptyToTbd ? "pop-in" : isCompleted ? "flip" : "";
+  const [animation, setAnimation] = useState(initialAnimation);
+  const [state, setState] = useState<TileState>(isEmptyToTbd ? "tbd" : "empty");
+
+  // useEffect(() => {
+  //   if (isEmptyToTbd) {
+  //     setState("tbd");
+  //     setAnimation("pop-in");
+  //   } else if (isCompleted) {
+  //     setAnimation("flip");
+  //   }
+  // }, [isEmptyToTbd, isCompleted]);
 
   const handleAnimationEnd = (event: React.AnimationEvent) => {
     switch (event.animationName) {
