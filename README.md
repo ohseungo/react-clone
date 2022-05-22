@@ -45,7 +45,7 @@ const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
 
 - 해결법 1 : useEffect 의존 배열에 핸들럼 함수를 넣는다
   -> 이 경우 렌더링을 할때마다 이벤트 제거/추가를 반복한다. 그렇게 좋은 해결책은 아니다.
-- 해결법 2 : useEffect 내에서 사용하는 콜백 함수의 선언은 마찬가지로 useEffect 내에서 선언한다. -> 함수가 복잡해질 수록 구현 자체가 어려워진다.
+- 해결법 2 : useEffect 내에서 사용하는 콜백 함수의 선언은 마찬가지로 useEffect 내에서 선언한다. -> 함수내에서 참조하는 prop/state 가 많아질수록 dependency 체크가 어려워진다
 - 해결법 3 : useRef 를 사용하여 항상 최신 콜백 함수를 참조하게 만든다.
 
   useRef 에 저장한 콜백 함수를 감싼 외부 함수를 핸들러로 넘겨 이벤트 추가가 갱신되지 않더라도 항상 리렌더링 이후 최신 콜백 함수를 실행하게 한다.

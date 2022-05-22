@@ -6,6 +6,7 @@ import Board from "components/board/Board";
 import Keyboard from "components/keyboard/Keyboard";
 import MessageToast from "components/common/MessageToast";
 import InfoModal from "components/common/InfoModal";
+
 function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
